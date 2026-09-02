@@ -2,11 +2,9 @@ using Assignment02.Models;
 
 namespace Assignment02.Data
 {
-    /// <summary>
-    /// Provides the initial product catalog data as specified in Assignment 02 Page 2.
-    /// </summary>
     public static class ProductCatalog
     {
+        // Starter data from Assignment 02 Page 2
         public static List<Product> GetCatalog() => new()
         {
             new Product { Id = 1, Name = "Laptop", Category = "Electronics", Price = 1200, Stock = 10 },

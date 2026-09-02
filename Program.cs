@@ -12,33 +12,28 @@ namespace Assignment02
     {
         static void Main(string[] args)
         {
-            // Load shared starter product catalog
+            // Starter catalog with 10 products (from Assignment Page 2)
             List<Product> catalog = ProductCatalog.GetCatalog();
 
-            #region Question 01 / Task 01: Smart Product Search
+            #region Question 01: Smart Product Search
             /*
-             * =========================================================================
-             * Task 01: Smart Product Search
-             * =========================================================================
-             * Requirement:
-             * Write a single method called SearchProducts that accepts:
+             * Question 01:
+             * Write a method called SearchProducts that accepts:
              *   1. The product list (List<Product>)
-             *   2. A delegate representing the filter condition (Func<Product, bool>)
-             * The method returns a List containing only the products that satisfy the condition.
-             * Call this method 4 times using lambda expressions:
-             *   1. All Electronics products
-             *   2. Products cheaper than $50
-             *   3. Products that are in stock (Stock > 0)
-             *   4. Clothing products under $100
+             *   2. A delegate for the filter condition (Func<Product, bool>)
+             * The method returns a list of products matching the condition.
+             * Call it 4 times with lambdas:
+             *   - All Electronics products
+             *   - Products cheaper than $50
+             *   - Products in stock (Stock > 0)
+             *   - Clothing products under $100
              * 
-             * Delegate Used:
-             *   Func<Product, bool> (and custom delegate ProductFilter)
-             * Why:
-             *   Func<T, bool> encapsulates a method that takes a single Product parameter
-             *   and returns a boolean indicating whether the product satisfies the filter condition.
-             *   This adheres to the Open-Closed Principle (OCP): the search engine is open
-             *   for extension with any future search criteria, but closed for modification.
-             * =========================================================================
+             * Answer & Explanation:
+             * - Delegate used: Func<Product, bool>
+             * - Why: We need to evaluate each product and decide whether to include it or not.
+             *   Func<Product, bool> takes a Product as an input parameter and returns a boolean (true/false).
+             *   This makes the search flexible because the caller can pass any filter condition
+             *   using a lambda without changing the SearchProducts method itself.
              */
 
             // 1. All Electronics products
@@ -47,11 +42,12 @@ namespace Assignment02
             Helper.PrintProducts(electronics);
 
             // 2. Products cheaper than $50
+            // Note: C# Book ($45) is included since 45 < 50.
             Helper.PrintHeader("Under $50");
             List<Product> cheapProducts = ProductSearchEngine.SearchProducts(catalog, p => p.Price < 50);
             Helper.PrintProducts(cheapProducts);
 
-            // 3. Products that are in stock (Stock > 0)
+            // 3. Products in stock (Stock > 0)
             Helper.PrintHeader("In Stock");
             List<Product> inStockProducts = ProductSearchEngine.SearchProducts(catalog, p => p.Stock > 0);
             Helper.PrintProducts(inStockProducts);
@@ -63,25 +59,19 @@ namespace Assignment02
 
             #endregion
 
-            #region Question 02 / Task 03.1: Custom Report Generator - Print Reports
+            #region Question 02: Custom Report Generator - Print Reports (Task 3.1)
             /*
-             * =========================================================================
-             * Task 03.1: Print Reports
-             * =========================================================================
-             * Requirement:
-             * Write a method called PrintReport that accepts the product list and an Action.
-             * The method loops through all products and calls the action on each one.
-             * The caller decides what to print by passing a lambda.
-             *   Scenario 1 Short Report: Print each product as Name - $Price
-             *   Scenario 2 Detailed Report: Print each product as [Category] Name | Price: $X | Stock: Y
+             * Question 02:
+             * Write a method called PrintReport that accepts the product list and an Action delegate.
+             * It loops through the products and calls the action on each one.
+             * Call it for two scenarios:
+             *   Scenario 1 (Short Report): Name - $Price
+             *   Scenario 2 (Detailed Report): [Category] Name | Price: $X | Stock: Y
              * 
-             * Delegate Used:
-             *   Action<Product>
-             * Why:
-             *   Action<T> represents a delegate that takes an input of type T and returns void.
-             *   It is specifically intended for executing side-effects (such as printing to console,
-             *   logging, or rendering) without requiring any return value from the function.
-             * =========================================================================
+             * Answer & Explanation:
+             * - Delegate used: Action<Product>
+             * - Why: We just want to perform a printing action on each product and we don't need
+             *   to return any value. Action<T> is designed for methods that return void.
              */
 
             // Scenario 1: Short Report
@@ -96,25 +86,19 @@ namespace Assignment02
 
             #endregion
 
-            #region Question 03 / Task 03.2: Custom Report Generator - Transform Products
+            #region Question 03: Custom Report Generator - Transform Products (Task 3.2)
             /*
-             * =========================================================================
-             * Task 03.2: Transform Products
-             * =========================================================================
-             * Requirement:
-             * Write a method called TransformProducts that accepts the product list and a Func.
-             * The method returns a List by applying the function to each product.
-             *   Scenario 3 Summary List: Transform each product into a string like "Laptop ($1200)". Print all results.
-             *   Scenario 4 Price Label: Transform each product into "Expensive!" if Price > $100, or "Affordable" otherwise.
-             *                           Print each as Name: Label.
+             * Question 03:
+             * Write a method called TransformProducts that accepts the product list and a Func delegate.
+             * It returns a new list by applying the function to each product.
+             * Call it for two scenarios:
+             *   Scenario 3 (Summary List): string like "Laptop ($1200)"
+             *   Scenario 4 (Price Labels): "Expensive!" if Price > 100, else "Affordable", printed as Name: Label
              * 
-             * Delegate Used:
-             *   Func<Product, TResult> (in these scenarios, Func<Product, string>)
-             * Why:
-             *   Func<T, TResult> takes an input of type T and returns a value of type TResult.
-             *   It is the standard, strongly-typed delegate for mapping/projection operations,
-             *   allowing us to convert a Product into a formatted summary string or a classified label.
-             * =========================================================================
+             * Answer & Explanation:
+             * - Delegate used: Func<Product, string> (or generic Func<Product, TResult>)
+             * - Why: We need to take a Product and transform/map it into a new value (here, a formatted string).
+             *   Func<T, TResult> takes an input and returns an output, which fits data transformation.
              */
 
             // Scenario 3: Summary List
@@ -129,34 +113,46 @@ namespace Assignment02
 
             #endregion
 
-            #region Question 04 / Task 03.3: Custom Report Generator - Filter Products
+            #region Question 04: Custom Report Generator - Filter Products (Task 3.3)
             /*
-             * =========================================================================
-             * Task 03.3: Filter Products
-             * =========================================================================
-             * Requirement:
-             * Write a method called FilterProducts that accepts the product list and a Predicate.
-             * The method returns a List of products that match the condition.
-             *   Scenario 5 Low-Stock Alert: Find products with Stock < 20 and print an alert for each
-             *                               in the format: [LOW STOCK] Name: only X left!
+             * Question 04:
+             * Write a method called FilterProducts that accepts the product list and a Predicate delegate.
+             * It returns a list of products that match the condition.
+             * Call it for:
+             *   Scenario 5 (Low-Stock Alert): products with Stock < 20, format: [LOW STOCK] Name: only X left!
              * 
-             * Delegate Used:
-             *   Predicate<Product>
-             * Why:
-             *   Predicate<T> is a specialized built-in delegate that accepts an object of type T
-             *   and returns a boolean value (equivalent to Func<T, bool>). It explicitly communicates
-             *   intent for condition checks and criteria filtering in collections (e.g. List.FindAll).
-             * =========================================================================
+             * Answer & Explanation:
+             * - Delegate used: Predicate<Product>
+             * - Why: Predicate<T> takes an object and returns a bool. It is the built-in C# delegate
+             *   specifically meant for condition checking and filtering (like List.FindAll).
              */
 
             // Scenario 5: Low-Stock Alert
             Helper.PrintHeader("Low-Stock Alert");
-            List<Product> lowStockProducts = ReportEngine.FilterProducts(catalog, p => p.Stock < 20);
-            foreach (var p in lowStockProducts)
+            List<Product> lowStock = ReportEngine.FilterProducts(catalog, p => p.Stock < 20);
+            foreach (var p in lowStock)
             {
                 Console.WriteLine($"[LOW STOCK] {p.Name}: only {p.Stock} left!");
             }
             Console.WriteLine();
+
+            #endregion
+
+            #region Bonus: Delegate Evolution (Custom Delegate, Anonymous Method, Lambda)
+            /*
+             * Bonus Demo (Matching Session Demo concepts):
+             * Demonstrates the three ways to pass logic to a delegate in C#:
+             *   1. User-defined custom delegate vs built-in Func
+             *   2. Anonymous method (C# 2.0 syntax)
+             *   3. Lambda expression (C# 3.0+ syntax)
+             */
+
+            // 1. Using user-defined custom delegate (ProductFilter)
+            ProductFilter customFilter = delegate (Product p) { return p.Category == "Books"; };
+            List<Product> booksWithAnon = ProductSearchEngine.SearchProductsWithCustomDelegate(catalog, customFilter);
+
+            // 2. Using same filter with lambda
+            List<Product> booksWithLambda = ProductSearchEngine.SearchProducts(catalog, p => p.Category == "Books");
 
             #endregion
         }
