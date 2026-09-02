@@ -15,8 +15,20 @@ namespace Assignment02
             List<Product> catalog = ProductCatalog.GetCatalog();
 
             #region Question 01
-            // Delegate: Func<Product, bool>
-            // Why: Takes a Product and returns bool, allowing dynamic search filters via lambdas.
+            /*
+             * Question 01:
+             * Write a SearchProducts method that accepts a product list and a filter condition delegate.
+             * Call it with lambda expressions for:
+             *   1. Electronics products
+             *   2. Products cheaper than $50
+             *   3. In-stock products (Stock > 0)
+             *   4. Clothing products under $100
+             * 
+             * Answer:
+             * - Delegate: Func<Product, bool>
+             * - Why: It accepts a Product and returns a bool. This allows passing any filter
+             *   condition as a lambda expression without modifying the SearchProducts method.
+             */
 
             Helper.PrintHeader("Electronics");
             List<Product> electronics = ProductSearch.SearchProducts(catalog, p => p.Category == "Electronics");
@@ -36,8 +48,19 @@ namespace Assignment02
             #endregion
 
             #region Question 02
-            // Delegate: Action<Product>
-            // Why: Used to execute a void printing operation for each product.
+            /*
+             * Question 02:
+             * Write a PrintReport method that accepts a product list and an Action delegate to print
+             * products based on a caller-defined format.
+             * Call it for:
+             *   - Short Report: Name - $Price
+             *   - Detailed Report: [Category] Name | Price: $X | Stock: Y
+             * 
+             * Answer:
+             * - Delegate: Action<Product>
+             * - Why: Action<T> represents a method with a void return type, which is ideal
+             *   for executing print operations on each product without returning any data.
+             */
 
             Helper.PrintHeader("Short Report");
             ReportGenerator.PrintReport(catalog, p => Console.WriteLine($"{p.Name} - ${p.Price}"));
@@ -49,8 +72,19 @@ namespace Assignment02
             #endregion
 
             #region Question 03
-            // Delegate: Func<Product, string>
-            // Why: Transforms each Product into a formatted string and returns the result.
+            /*
+             * Question 03:
+             * Write a TransformProducts method that accepts a product list and a Func delegate to
+             * transform each product into a new list.
+             * Call it for:
+             *   - Summary List: "Name ($Price)"
+             *   - Price Labels: "Expensive!" if Price > 100 else "Affordable"
+             * 
+             * Answer:
+             * - Delegate: Func<Product, string> (or Func<Product, TResult>)
+             * - Why: Func<T, TResult> takes an input and returns a transformed output,
+             *   making it suitable for projecting products into formatted strings.
+             */
 
             Helper.PrintHeader("Summary List");
             List<string> summaries = ReportGenerator.TransformProducts(catalog, p => $"{p.Name} (${p.Price})");
@@ -62,8 +96,17 @@ namespace Assignment02
             #endregion
 
             #region Question 04
-            // Delegate: Predicate<Product>
-            // Why: Evaluates a condition on a Product and returns true or false for filtering.
+            /*
+             * Question 04:
+             * Write a FilterProducts method that accepts a product list and a Predicate delegate.
+             * Call it for:
+             *   - Low-Stock Alert: Find products with Stock < 20 and print "[LOW STOCK] Name: only X left!"
+             * 
+             * Answer:
+             * - Delegate: Predicate<Product>
+             * - Why: Predicate<T> takes a Product and returns a bool, which is specifically designed
+             *   for condition-based filtering in collections.
+             */
 
             Helper.PrintHeader("Low-Stock Alert");
             List<Product> lowStock = ReportGenerator.FilterProducts(catalog, p => p.Stock < 20);
