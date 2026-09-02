@@ -2,10 +2,7 @@ using Assignment02.Models;
 
 namespace Assignment02.Common
 {
-    /// <summary>
-    /// Utility helper methods for formatting and printing results to the console.
-    /// Follows the Helper design pattern from Session Demo.
-    /// </summary>
+   
     public static class Helper
     {
         public static void PrintHeader(string title)
