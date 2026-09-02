@@ -4,7 +4,6 @@ namespace Assignment02.Data
 {
     public static class ProductCatalog
     {
-        // Starter data from Assignment 02 Page 2
         public static List<Product> GetCatalog() => new()
         {
             new Product { Id = 1, Name = "Laptop", Category = "Electronics", Price = 1200, Stock = 10 },

@@ -12,7 +12,6 @@ namespace Assignment02
     {
         static void Main(string[] args)
         {
-            // Starter catalog with 10 products (from Assignment Page 2)
             List<Product> catalog = ProductCatalog.GetCatalog();
 
             #region Question 01: Smart Product Search
@@ -42,7 +41,6 @@ namespace Assignment02
             Helper.PrintProducts(electronics);
 
             // 2. Products cheaper than $50
-            // Note: C# Book ($45) is included since 45 < 50.
             Helper.PrintHeader("Under $50");
             List<Product> cheapProducts = ProductSearchEngine.SearchProducts(catalog, p => p.Price < 50);
             Helper.PrintProducts(cheapProducts);
